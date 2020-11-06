@@ -4,6 +4,9 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const authRoutes = require('./routes/authRotes')
 const cookieParser = require('cookie-parser');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
+const Smoothie = require('./models/Smoothie');
+
 // const randomstring = require('randomstring');
 
 const app = express()
@@ -41,13 +44,27 @@ mongoose.connect(dbURI, {
   .catch((err) => console.log(err));
 
 // Routes
+app.get('*', checkUser);
 app.get('/', (req, res) => {
 	res.render('home')
 })
 
-app.get('/smoothies', (req, res) => {
-	res.render('smoothies')
-})
+app.get('/smoothies', requireAuth, (req, res) => {
+	Smoothie.find((err, docs) => {
+      if (err) {
+        // if an error happens
+        res.send("Error in GET req.");
+      } else {
+        // res.send(docs);
+				res.render('smoothies', { data: docs });
+      }
+    });
+});
+
+app.get('/addSmoothie', requireAuth, (req, res) => {
+	res.render('addSmoothie');
+});
 
 app.use(authRoutes)
+
 

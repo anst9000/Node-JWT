@@ -1,0 +1,20 @@
+<%- include('partials/header'); -%>
+
+
+<h1>Add new Smoothie</h1>
+
+<form action="">
+	<label for="smoothieName">Name of Smoothie</label>
+	<input type="text" name="smoothieName" required />
+
+	<label for="ingredients">All ingredients</label>
+	<textarea type="text" name="ingredients" rows="5" required>
+
+	</textarea>
+	<div class="password error">Add all ingredients with comma between.</div>
+	<button>Clear</button>
+	<button>Add Smoothie</button>
+</form>
+
+
+<%- include('partials/footer'); -%>
